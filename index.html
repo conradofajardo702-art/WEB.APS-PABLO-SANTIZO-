@@ -1,0 +1,1080 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>APS | Automatización de Proyectos y Soluciones</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #0b0b0b;
+            color: #ffffff;
+        }
+
+        /* ANIMACIONES */
+        .seccion-animada {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        .seccion-animada.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ICONOS FLOTANTES */
+        .icono-flotante-whatsapp,
+        .icono-flotante-ig {
+            position: fixed;
+            bottom: 30px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 30px;
+            z-index: 9999;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            transition: transform 0.3s, box-shadow 0.3s;
+            text-decoration: none;
+        }
+        .icono-flotante-whatsapp:hover,
+        .icono-flotante-ig:hover {
+            transform: scale(1.15);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+        }
+        .icono-flotante-whatsapp {
+            right: 25px;
+            background: #25d366;
+            color: white;
+        }
+        .icono-flotante-ig {
+            right: 95px;
+            background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+            color: white;
+        }
+
+        /* NAVEGACIÓN */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            background: rgba(8, 8, 8, 0.96);
+            border-bottom: 1px solid #f57c00;
+        }
+        nav {
+            max-width: 1200px;
+            margin: auto;
+            padding: 15px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo-nav {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .logo-nav svg {
+            width: 55px;
+            height: 55px;
+        }
+        .logo-text {
+            font-size: 27px;
+            font-weight: bold;
+            color: #ff7b00;
+        }
+        .menu {
+            display: flex;
+            gap: 20px;
+            list-style: none;
+        }
+        .menu a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+        .menu a:hover {
+            color: #ff7b00;
+        }
+
+        /* FRASE DESTACADA */
+        .frase-bienvenida {
+            text-align: center;
+            padding: 25px 20px;
+            background: linear-gradient(90deg, rgba(255,123,0,0.15), rgba(255,123,0,0.05), rgba(255,123,0,0.15));
+            border-top: 1px solid rgba(255,123,0,0.3);
+            border-bottom: 1px solid rgba(255,123,0,0.3);
+        }
+        .frase-bienvenida p {
+            font-size: 24px;
+            font-weight: bold;
+            color: #ff7b00;
+            font-style: italic;
+        }
+
+        /* PORTADA */
+        .hero {
+            min-height: 100vh;
+            padding: 130px 7% 70px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 50px;
+            background: linear-gradient(90deg, rgba(5,5,5,0.97) 0%, rgba(5,5,5,0.75) 55%, rgba(5,5,5,0.35) 100%);
+        }
+        .hero-content {
+            max-width: 650px;
+        }
+        .hero-logo {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            margin-bottom: 30px;
+        }
+        .hero-logo svg {
+            width: 90px;
+            height: 90px;
+        }
+        .hero-logo h1 {
+            font-size: 70px;
+            color: #ff7b00;
+            letter-spacing: 3px;
+        }
+        .hero h2 {
+            font-size: 38px;
+            line-height: 1.15;
+            margin-bottom: 20px;
+        }
+        .hero p {
+            color: #dddddd;
+            font-size: 18px;
+            line-height: 1.7;
+            margin-bottom: 30px;
+        }
+        .buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        .btn {
+            padding: 14px 22px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+        .btn-orange {
+            background: #ff7b00;
+            color: white;
+        }
+        .btn-orange:hover {
+            background: #ff9800;
+            transform: translateY(-2px);
+        }
+        .btn-facebook {
+            background: #1877f2;
+            color: white;
+        }
+        .btn-facebook:hover {
+            background: #0d65d9;
+            transform: translateY(-2px);
+        }
+        .hero-image {
+            width: 48%;
+            max-width: 600px;
+        }
+        .hero-image img {
+            width: 100%;
+            border-radius: 18px;
+            border: 2px solid #ff7b00;
+            box-shadow: 0 0 35px rgba(255,123,0,0.35);
+            display: block;
+            object-fit: cover;
+        }
+
+        /* QUIENES SOMOS */
+        .quienes-somos {
+            background: #f9f9f9;
+            color: #222;
+            padding: 90px 7%;
+        }
+        .quienes-contenido {
+            max-width: 900px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        .quienes-imagen {
+            max-width: 700px;
+            margin: 0 auto 30px;
+        }
+        .quienes-imagen img {
+            width: 100%;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            display: block;
+        }
+        .quienes-texto {
+            font-size: 18px;
+            line-height: 1.8;
+            text-align: justify;
+            margin-bottom: 25px;
+        }
+        .valores {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 10px;
+        }
+        .valor {
+            background: #ff7b00;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 30px;
+            font-weight: bold;
+            font-size: 17px;
+        }
+
+        /* MISIÓN Y VISIÓN */
+        .mision-vision {
+            background: #f4f4f4;
+            color: #222;
+            padding: 90px 7%;
+        }
+        .mv-container {
+            max-width: 1150px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+        }
+        .mv-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border-top: 5px solid #ff7b00;
+        }
+        .mv-imagen {
+            width: 100%;
+            height: 240px;
+            overflow: hidden;
+        }
+        .mv-imagen img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+            display: block;
+        }
+        .mv-card:hover .mv-imagen img {
+            transform: scale(1.05);
+        }
+        .mv-texto {
+            padding: 30px;
+        }
+        .mv-texto h2 {
+            color: #ff7b00;
+            font-size: 26px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .mv-texto p {
+            font-size: 16px;
+            line-height: 1.8;
+            text-align: justify;
+        }
+
+        /* FRASE SEPARADOR */
+        .frase-separador {
+            text-align: center;
+            padding: 40px 20px;
+            background: linear-gradient(90deg, #0b0b0b, #1a1a1a, #0b0b0b);
+            border-top: 1px solid #ff7b00;
+            border-bottom: 1px solid #ff7b00;
+        }
+        .frase-separador p {
+            font-size: 24px;
+            font-weight: bold;
+            color: #ff7b00;
+            font-style: italic;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* ENTRENAMIENTOS APS — SECCIÓN RESTAURADA */
+        .entrenamientos {
+            background: #fff8f0;
+            color: #222;
+            padding: 90px 7%;
+        }
+        .entrenamientos-contenido {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+        .entrenamientos-texto {
+            flex: 1;
+            min-width: 300px;
+        }
+        .entrenamientos-texto h2 {
+            font-size: 32px;
+            color: #ff7b00;
+            margin-bottom: 20px;
+        }
+        .entrenamientos-texto p {
+            font-size: 17px;
+            line-height: 1.8;
+            text-align: justify;
+            margin-bottom: 15px;
+        }
+        .entrenamientos-imagenes {
+            flex: 1;
+            min-width: 300px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        .entrenamientos-imagenes img {
+            width: 100%;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(255,123,0,0.25);
+            display: block;
+            object-fit: cover;
+            transition: transform 0.3s;
+        }
+        .entrenamientos-imagenes img:hover {
+            transform: scale(1.03);
+        }
+
+        /* NUESTROS SERVICIOS */
+        .nuestros-servicios {
+            background: #f4f4f4;
+            color: #222;
+            padding: 90px 7%;
+        }
+        .servicios-contenido {
+            max-width: 900px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        .servicios-imagen {
+            max-width: 600px;
+            margin: 0 auto 30px;
+        }
+        .servicios-imagen img {
+            width: 100%;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(255,123,0,0.2);
+            display: block;
+        }
+        .servicios-lista {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 20px;
+        }
+        .servicio-fila {
+            background: #ff7b00;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 10px;
+            font-weight: bold;
+            font-size: 17px;
+            text-align: left;
+            transition: 0.3s;
+            box-shadow: 0 4px 12px rgba(255,123,0,0.25);
+        }
+        .servicio-fila:hover {
+            transform: translateX(10px);
+            background: #ff9800;
+        }
+
+        /* SERVICIOS GENERALES */
+        .servicios {
+            background: #eeeeee;
+            color: #222;
+            padding: 90px 5%;
+        }
+        .seccion-centro {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        .titulo-seccion {
+            font-size: 36px;
+            margin-bottom: 10px;
+            color: #171717;
+        }
+        .linea {
+            width: 70px;
+            height: 4px;
+            background: #ff7b00;
+            margin: 0 auto 25px;
+        }
+        .subtitulo {
+            color: #666;
+            font-size: 17px;
+        }
+        .servicios-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+        }
+        .servicio {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 7px 20px rgba(0,0,0,0.1);
+            transition: 0.3s;
+        }
+        .servicio:hover {
+            transform: translateY(-7px);
+            border-top: 4px solid #ff7b00;
+        }
+        .servicio-img {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            display: block;
+        }
+        .icono {
+            width: 65px;
+            height: 65px;
+            margin: 0 auto 15px;
+            border-radius: 50%;
+            background: #fff0df;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #ff7b00;
+            font-size: 30px;
+        }
+        .servicio h3 {
+            margin-bottom: 12px;
+            font-size: 21px;
+        }
+        .servicio p {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        /* ÁREAS DE TRABAJO */
+        .areas {
+            background: #090909;
+            padding: 90px 5%;
+        }
+        .areas .titulo-seccion {
+            color: white;
+        }
+        .areas .subtitulo {
+            color: #aaa;
+        }
+        .areas-grid {
+            max-width: 1200px;
+            margin: 40px auto 0;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+        }
+        .area-card {
+            background: #151515;
+            border: 1px solid #ff7b00;
+            border-radius: 15px;
+            padding: 25px;
+            transition: 0.3s;
+        }
+        .area-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 0 20px rgba(255,123,0,0.2);
+        }
+        .area-imagen {
+            width: 100%;
+            height: 150px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            overflow: hidden;
+        }
+        .area-imagen img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+        .area-card h3 {
+            color: #ff7b00;
+            margin-bottom: 12px;
+            font-size: 20px;
+        }
+        .area-card p {
+            color: #bbb;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        .ver-mas {
+            border: none;
+            background: #ff7b00;
+            color: white;
+            padding: 11px 18px;
+            border-radius: 7px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .ver-mas:hover {
+            background: #ff9800;
+        }
+
+        /* MODAL */
+        .modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 2000;
+            background: rgba(0,0,0,0.85);
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .modal-contenido {
+            background: #151515;
+            border: 1px solid #ff7b00;
+            border-radius: 15px;
+            max-width: 700px;
+            width: 100%;
+            padding: 35px;
+            position: relative;
+        }
+        .cerrar {
+            position: absolute;
+            top: 12px;
+            right: 18px;
+            font-size: 30px;
+            color: #ff7b00;
+            cursor: pointer;
+        }
+        .modal-contenido h2 {
+            color: #ff7b00;
+            margin-bottom: 15px;
+        }
+        .modal-contenido p {
+            color: #ddd;
+            line-height: 1.7;
+            margin-bottom: 20px;
+        }
+        .modal-contenido ul {
+            list-style: none;
+        }
+        .modal-contenido li {
+            color: #ccc;
+            padding: 6px 0;
+        }
+        .modal-contenido li::before {
+            content: "✓";
+            color: #ff7b00;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        /* CONTACTO */
+        .contacto {
+            background: #f4f4f4;
+            color: #222;
+            padding: 90px 7%;
+            text-align: center;
+        }
+        .contacto-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .datos {
+            margin: 30px 0;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .dato {
+            background: white;
+            padding: 20px 25px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+        .dato strong {
+            color: #ff7b00;
+            display: block;
+            margin-bottom: 8px;
+        }
+        .dato a {
+            color: #333;
+            text-decoration: none;
+        }
+        .correo-grande {
+            display: inline-block;
+            padding: 15px 25px;
+            background: #ff7b00;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        .correo-grande:hover {
+            background: #e86f00;
+        }
+
+        /* FOOTER */
+        footer {
+            background: #050505;
+            color: #aaa;
+            text-align: center;
+            padding: 25px;
+            border-top: 1px solid #ff7b00;
+        }
+        footer span {
+            color: #ff7b00;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 900px) {
+            .menu { gap: 12px; font-size: 14px; }
+            .hero { flex-direction: column; text-align: center; padding-top: 130px; }
+            .hero-logo { justify-content: center; }
+            .hero-image { width: 90%; max-width: 500px; }
+            .mv-container { grid-template-columns: 1fr; }
+            .entrenamientos-contenido { flex-direction: column; }
+            .servicios-grid, .areas-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 600px) {
+            nav { padding: 10px 12px; }
+            .logo-text { font-size: 20px; }
+            .menu { display: none; }
+            .hero-logo h1 { font-size: 48px; }
+            .servicios-grid, .areas-grid { grid-template-columns: 1fr; }
+            .icono-flotante-whatsapp { right: 15px; bottom: 20px; }
+            .icono-flotante-ig { right: 80px; bottom: 20px; }
+            .frase-bienvenida p, .frase-separador p { font-size: 19px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ICONOS FLOTANTES -->
+<a href="https://wa.me/50249199706" target="_blank" class="icono-flotante-whatsapp" title="Escribir por WhatsApp">💬</a>
+<a href="https://www.instagram.com/aps.automatizacionyproyectos?stkn=NzRnNmtjaXRhejdo" target="_blank" class="icono-flotante-ig" title="Seguir en Instagram">📸</a>
+
+<!-- NAVEGACIÓN -->
+<header>
+    <nav>
+        <div class="logo-nav">
+            <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <rect x="42" y="72" width="30" height="12" rx="3" fill="#ff7b00"/>
+                <rect x="50" y="55" width="15" height="20" rx="5" fill="#ffffff"/>
+                <circle cx="57" cy="52" r="9" fill="#ff7b00"/>
+                <rect x="32" y="28" width="30" height="12" rx="5" transform="rotate(25 32 28)" fill="#ffffff"/>
+                <circle cx="33" cy="31" r="7" fill="#ff7b00"/>
+                <rect x="18" y="15" width="28" height="11" rx="5" transform="rotate(-30 18 15)" fill="#ffffff"/>
+                <circle cx="18" cy="16" r="6" fill="#ff7b00"/>
+                <rect x="8" y="8" width="17" height="9" rx="4" transform="rotate(-20 8 8)" fill="#ffffff"/>
+            </svg>
+            <div class="logo-text">APS</div>
+        </div>
+        <ul class="menu">
+            <li><a href="#inicio">Inicio</a></li>
+            <li><a href="#quienes-somos">¿Quiénes Somos?</a></li>
+            <li><a href="#mision-vision">Misión y Visión</a></li>
+            <li><a href="#entrenamientos">Entrenamientos</a></li>
+            <li><a href="#nuestros-servicios">Servicios</a></li>
+            <li><a href="#servicios">Más Áreas</a></li>
+            <li><a href="#areas">Áreas de trabajo</a></li>
+            <li><a href="#contacto">Contacto</a></li>
+        </ul>
+    </nav>
+</header>
+
+<!-- FRASE PRINCIPAL — EXACTAMENTE COMO LO PIDIÓ -->
+<div class="frase-bienvenida seccion-animada">
+    <p>APS — Donde ERES TU la tecnología de punta.</p>
+</div>
+
+<!-- PORTADA -->
+<section class="hero" id="inicio">
+    <div class="hero-content">
+        <div class="hero-logo">
+            <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <rect x="42" y="72" width="30" height="12" rx="3" fill="#ff7b00"/>
+                <rect x="50" y="55" width="15" height="20" rx="5" fill="#ffffff"/>
+                <circle cx="57" cy="52" r="9" fill="#ff7b00"/>
+                <rect x="32" y="28" width="30" height="12" rx="5" transform="rotate(25 32 28)" fill="#ffffff"/>
+                <circle cx="33" cy="31" r="7" fill="#ff7b00"/>
+                <rect x="18" y="15" width="28" height="11" rx="5" transform="rotate(-30 18 15)" fill="#ffffff"/>
+                <circle cx="18" cy="16" r="6" fill="#ff7b00"/>
+                <rect x="8" y="8" width="17" height="9" rx="4" transform="rotate(-20 8 8)" fill="#ffffff"/>
+            </svg>
+            <h1>APS</h1>
+        </div>
+        <h2>Automatización de Proyectos y Soluciones</h2>
+        <p>
+            Somos una empresa dedicada al desarrollo de proyectos
+            de automatización industrial y eficiencia de procesos.
+        </p>
+        <div class="buttons">
+            <a href="#quienes-somos" class="btn btn-orange">📋 Conócenos</a>
+            <a href="https://www.facebook.com/aps.automati" target="_blank" class="btn btn-facebook">f &nbsp; Consultar por Facebook</a>
+        </div>
+    </div>
+    <div class="hero-image">
+        <img src="portada-inicio.jpg" alt="">
+    </div>
+</section>
+
+<!-- QUIENES SOMOS -->
+<section class="quienes-somos seccion-animada" id="quienes-somos">
+    <div class="quienes-contenido">
+        <h2 class="titulo-seccion">¿QUIÉNES SOMOS?</h2>
+        <div class="linea"></div>
+        
+        <div class="quienes-imagen">
+            <img src="quienes-somos-aps.jpg" alt="">
+        </div>
+        
+        <p class="quienes-texto">
+            Somos una empresa comprometida con la excelencia en el campo de la automatización. Creemos firmemente que la tecnología debe servir para facilitar, integrar y mejorar cada proceso, y por eso trabajamos con valores que nos definen y nos distinguen.
+        </p>
+        <p class="quienes-texto">
+            Nuestro nombre y nuestra identidad se construyen sobre cinco pilares fundamentales que guían cada uno de nuestros proyectos:
+        </p>
+        
+        <div class="valores">
+            <span class="valor">INTEGRACIÓN</span>
+            <span class="valor">SIMPLICIDAD</span>
+            <span class="valor">OPORTUNIDAD</span>
+            <span class="valor">FLEXIBILIDAD</span>
+            <span class="valor">EXPANSIBILIDAD</span>
+        </div>
+    </div>
+</section>
+
+<!-- MISIÓN Y VISIÓN -->
+<section class="mision-vision seccion-animada" id="mision-vision">
+    <div class="mv-container">
+        <div class="mv-card">
+            <div class="mv-imagen">
+                <img src="imagen-mision.jpg" alt="">
+            </div>
+            <div class="mv-texto">
+                <h2>🎯 NUESTRA MISIÓN</h2>
+                <p>
+                    El empleo y desarrollo de la automatización para simplificar, integrar y optimizar procesos nos motiva constantemente. Nos esforzamos para que nuestro trabajo sea de la máxima calidad, ofreciendo soluciones alternativas que se adapten a la altura de las necesidades de nuestros clientes, logrando que confíen en nosotros y prefieran nuestros servicios.
+                </p>
+            </div>
+        </div>
+
+        <div class="mv-card">
+            <div class="mv-imagen">
+                <img src="imagen-vision.jpg" alt="">
+            </div>
+            <div class="mv-texto">
+                <h2>👁️ NUESTRA VISIÓN</h2>
+                <p>
+                    Ser una empresa líder en el ámbito de la automatización, lo cual implica ser transparentes, responsables, eficaces y eficientes. Desarrollamos e innovamos proyectos y servicios para ser una solución excelente en la satisfacción total de las necesidades de nuestros clientes; contribuimos además al desarrollo integral de la ciudadanía.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FRASE SEPARADOR -->
+<div class="frase-separador seccion-animada">
+    <p>Donde la tecnología avanza, APS acompaña.</p>
+</div>
+
+<!-- ==========================================
+     SECCIÓN DE ENTRENAMIENTOS APS — RESTAURADA
+     ========================================== -->
+<section class="entrenamientos seccion-animada" id="entrenamientos">
+    <div class="entrenamientos-contenido">
+        <div class="entrenamientos-texto">
+            <h2>🎓 Entrenamientos APS</h2>
+            <p>
+                En APS creemos que el conocimiento es la herramienta más poderosa para transformar la industria. Por eso ofrecemos programas de capacitación diseñados para formar profesionales capaces de enfrentar los retos tecnológicos del presente y del futuro.
+            </p>
+            <p>
+                Nuestros entrenamientos no solo enseñan a usar equipos y sistemas; buscan que cada participante comprenda el porqué de cada proceso, para que pueda innovar, proponer mejoras y liderar proyectos con seguridad y confianza. La tecnología avanza rápido, y estar preparado marca la diferencia entre seguir el ritmo o marcarlo.
+            </p>
+            <p>
+                Porque <strong>la tecnología cambia, pero el conocimiento perdura</strong>. Nosotros te preparamos para ser tú quien dirija el cambio.
+            </p>
+        </div>
+        <div class="entrenamientos-imagenes">
+            <img src="entrenamiento-1.jpg" alt="Entrenamiento práctico en APS">
+            <img src="entrenamiento-2.jpg" alt="Capacitación profesional APS">
+        </div>
+    </div>
+</section>
+
+<!-- NUESTROS SERVICIOS -->
+<section class="nuestros-servicios seccion-animada" id="nuestros-servicios">
+    <div class="servicios-contenido">
+        <h2 class="titulo-seccion">NUESTROS SERVICIOS</h2>
+        <div class="linea"></div>
+        
+        <div class="servicios-imagen">
+            <img src="servicios-lista-aps.jpg" alt="">
+        </div>
+        
+        <p style="margin-bottom:25px; font-size:17px; line-height:1.7;">
+            En APS ofrecemos soluciones integrales de automatización adaptadas a las necesidades específicas de cada industria. Nuestros servicios están diseñados para optimizar sus procesos con la máxima calidad y respaldo profesional.
+        </p>
+
+        <div class="servicios-lista">
+            <div class="servicio-fila">⚙️ Modernizaciones</div>
+            <div class="servicio-fila">⚖️ Sistemas de pesaje</div>
+            <div class="servicio-fila">📐 Diseños de sistemas</div>
+            <div class="servicio-fila">🔗 Conectividad ERP y dispositivos móviles</div>
+            <div class="servicio-fila">🕐 Bloques de Horas en Sitio 24/7</div>
+            <div class="servicio-fila">🔧 Soporte técnico y diagnóstico de fallas</div>
+            <div class="servicio-fila">🏭 Asesoría de procesos e instrumentación industrial</div>
+        </div>
+    </div>
+</section>
+
+<!-- SERVICIOS GENERALES -->
+<section class="servicios" id="servicios">
+    <div class="seccion-centro">
+        <h2 class="titulo-seccion">Más Áreas de Servicio</h2>
+        <div class="linea"></div>
+        <p class="subtitulo">Soluciones tecnológicas integrales para la industria</p>
+    </div>
+    <div class="servicios-grid">
+        <div class="servicio">
+            <img src="servicio-automatizacion.jpg" alt="" class="servicio-img">
+            <div class="icono">⚙️</div>
+            <h3>Automatización Industrial</h3>
+            <p>Desarrollo e implementación de sistemas de automatización para procesos industriales.</p>
+        </div>
+        <div class="servicio">
+            <img src="servicio-control.jpg" alt="" class="servicio-img">
+            <div class="icono">🎛️</div>
+            <h3>Sistemas de Control</h3>
+            <p>Diseño e integración de sistemas de control, PLC, HMI y tecnologías industriales.</p>
+        </div>
+        <div class="servicio">
+            <img src="servicio-electronica.jpg" alt="" class="servicio-img">
+            <div class="icono">🔌</div>
+            <h3>Electrónica Industrial</h3>
+            <p>Integración de sensores, actuadores, controladores y sistemas electrónicos.</p>
+        </div>
+        <div class="servicio">
+            <img src="servicio-programacion.jpg" alt="" class="servicio-img">
+            <div class="icono">💻</div>
+            <h3>Programación y Sistemas</h3>
+            <p>Desarrollo de software, programación industrial y soluciones informáticas.</p>
+        </div>
+        <div class="servicio">
+            <img src="servicio-robotica.jpg" alt="" class="servicio-img">
+            <div class="icono">🦾</div>
+            <h3>Robótica y Tecnología</h3>
+            <p>Integración de robots y nuevas tecnologías para aplicaciones industriales.</p>
+        </div>
+        <div class="servicio">
+            <img src="servicio-optimizacion.jpg" alt="" class="servicio-img">
+            <div class="icono">📈</div>
+            <h3>Optimización de Procesos</h3>
+            <p>Análisis y mejora de procesos para aumentar la eficiencia y productividad.</p>
+        </div>
+    </div>
+</section>
+
+<!-- ÁREAS DE TRABAJO -->
+<section class="areas seccion-animada" id="areas">
+    <div class="seccion-centro">
+        <h2 class="titulo-seccion">Áreas de Trabajo</h2>
+        <div class="linea"></div>
+        <p class="subtitulo">Selecciona un área para conocer más información</p>
+    </div>
+    <div class="areas-grid">
+        <div class="area-card">
+            <div class="area-imagen">
+                <img src="servicio-automatizacion.jpg" alt="">
+            </div>
+            <h3>Automatización Industrial</h3>
+            <p>Soluciones para automatizar procesos industriales.</p>
+            <button class="ver-mas" onclick="abrirModal('automatizacion')">Ver más →</button>
+        </div>
+        <div class="area-card">
+            <div class="area-imagen">
+                <img src="servicio-control.jpg" alt="">
+            </div>
+            <h3>Sistemas de Control</h3>
+            <p>Control y supervisión de procesos industriales.</p>
+            <button class="ver-mas" onclick="abrirModal('control')">Ver más →</button>
+        </div>
+        <div class="area-card">
+            <div class="area-imagen">
+                <img src="servicio-electronica.jpg" alt="">
+            </div>
+            <h3>Electrónica Industrial</h3>
+            <p>Sistemas electrónicos aplicados a la industria.</p>
+            <button class="ver-mas" onclick="abrirModal('electronica')">Ver más →</button>
+        </div>
+        <div class="area-card">
+            <div class="area-imagen">
+                <img src="servicio-programacion.jpg" alt="">
+            </div>
+            <h3>Programación y Sistemas</h3>
+            <p>Software y soluciones para proyectos tecnológicos.</p>
+            <button class="ver-mas" onclick="abrirModal('programacion')">Ver más →</button>
+        </div>
+        <div class="area-card">
+            <div class="area-imagen">
+                <img src="servicio-robotica.jpg" alt="">
+            </div>
+            <h3>Robótica y Tecnología</h3>
+            <p>Robots y tecnología aplicada a procesos.</p>
+            <button class="ver-mas" onclick="abrirModal('robotica')">Ver más →</button>
+        </div>
+        <div class="area-card">
+            <div class="area-imagen">
+                <img src="servicio-optimizacion.jpg" alt="">
+            </div>
+            <h3>Optimización de Procesos</h3>
+            <p>Mejora de productividad y eficiencia.</p>
+            <button class="ver-mas" onclick="abrirModal('optimizacion')">Ver más →</button>
+        </div>
+    </div>
+</section>
+
+<!-- MODAL -->
+<div class="modal" id="modal">
+    <div class="modal-contenido">
+        <span class="cerrar" onclick="cerrarModal()">×</span>
+        <h2 id="modalTitulo"></h2>
+        <p id="modalDescripcion"></p>
+        <h3>Aplicaciones:</h3>
+        <ul id="modalAplicaciones"></ul>
+    </div>
+</div>
+
+<!-- CONTACTO -->
+<section class="contacto seccion-animada" id="contacto">
+    <div class="contacto-container">
+        <h2 class="titulo-seccion">CONTACTO</h2>
+        <div class="linea"></div>
+        <p>¿Deseas obtener información sobre nuestros servicios de automatización industrial o soluciones tecnológicas?</p>
+        
+        <div class="datos">
+            <div class="dato">
+                <strong>📞 Teléfono / WhatsApp</strong>
+                <a href="tel:+50249199706">+502 4919-9706</a>
+            </div>
+            <div class="dato">
+                <strong>📘 Facebook</strong>
+                <a href="https://www.facebook.com/aps.automati" target="_blank">@aps.automati</a>
+            </div>
+        </div>
+
+        <a href="https://mail.google.com/mail/?view=cm&fs=1&to=administracion@aps-solution.com&su=Consulta%20de%20proyecto%20-%20APS&body=Hola%2C%20me%20gustar%C3%ADa%20obtener%20informaci%C3%B3n%20sobre%20sus%20servicios." target="_blank" class="correo-grande">
+            📧 Enviar correo electrónico
+        </a>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+    <p>© 2026 <span>APS</span> - Automatización de Proyectos y Soluciones</p>
+</footer>
+
+<!-- JAVASCRIPT -->
+<script>
+    // Animaciones al desplazarse
+    const observador = new IntersectionObserver((entradas) => {
+        entradas.forEach(entrada => {
+            if (entrada.isIntersecting) {
+                entrada.target.classList.add('visible');
+            }
+        });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.seccion-animada').forEach(seccion => {
+        observador.observe(seccion);
+    });
+
+    const informacion = {
+        automatizacion: {
+            titulo: "⚙️ Automatización Industrial",
+            descripcion: "En APS desarrollamos soluciones de automatización industrial orientadas a mejorar el funcionamiento, control y productividad de diferentes procesos.",
+            aplicaciones: ["Programación de PLC", "Integración de sensores", "Automatización de máquinas", "Diseño de sistemas", "Control de procesos"]
+        },
+        control: {
+            titulo: "🎛️ Sistemas de Control",
+            descripcion: "Diseño e integración de sistemas de control para supervisar y controlar diferentes procesos industriales.",
+            aplicaciones: ["Sistemas PLC", "HMI", "Control de procesos", "Supervisión industrial", "Integración de equipos"]
+        },
+        electronica: {
+            titulo: "🔌 Electrónica Industrial",
+            descripcion: "Implementación e integración de sistemas electrónicos destinados a aplicaciones industriales.",
+            aplicaciones: ["Sensores", "Actuadores", "Controladores", "Tableros eléctricos", "Sistemas electrónicos"]
+        },
+        programacion: {
+            titulo: "💻 Programación y Sistemas",
+            descripcion: "Desarrollo de software y soluciones informáticas orientadas a proyectos tecnológicos.",
+            aplicaciones: ["Programación", "Software industrial", "Sistemas de información", "Interfaces", "Soluciones tecnológicas"]
+        },
+        robotica: {
+            titulo: "🦾 Robótica y Tecnología",
+            descripcion: "Integración de robots y nuevas tecnologías para soluciones aplicadas a procesos industriales.",
+            aplicaciones: ["Robots industriales", "Automatización robótica", "Integración tecnológica", "Control de robots", "Nuevas tecnologías"]
+        },
+        optimizacion: {
+            titulo: "📈 Optimización de Procesos",
+            descripcion: "Análisis y mejora de procesos para aumentar la eficiencia, productividad y aprovechamiento de recursos.",
+            aplicaciones: ["Análisis de procesos", "Mejora de productividad", "Reducción de tiempos", "Eficiencia industrial", "Optimización de operaciones"]
+        }
+    };
+
+    function abrirModal(area) {
+        const datos = informacion[area];
+        document.getElementById('modalTitulo').textContent = datos.titulo;
+        document.getElementById('modalDescripcion').textContent = datos.descripcion;
+        
+        const lista = document.getElementById('modalAplicaciones');
+        lista.innerHTML = '';
+        datos.aplicaciones.forEach(app => {
+            const li = document.createElement('li');
+            li.textContent = app;
+            lista.appendChild(li);
+        });
+        
+        document.getElementById('modal').style.display = 'flex';
+    }
+
+    function cerrarModal() {
+        document.getElementById('modal').style.display = 'none';
+    }
+
+    window.onclick = function(e) {
+        const modal = document.getElementById('modal');
+        if (e.target === modal) cerrarModal();
+    };
+</script>
+
+</body>
+</html>
